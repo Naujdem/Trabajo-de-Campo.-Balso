@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balso — Ochroma pyramidale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --verde-oscuro: #1a3a2a;
+    --verde-medio: #2d6a4f;
+    --verde-claro: #52b788;
+    --verde-palido: #d8f3dc;
+    --beige: #f8f4ef;
+    --beige-oscuro: #e8e0d4;
+    --cafe: #6b4c2a;
+    --texto: #1e1e1e;
+    --texto-suave: #4a4a4a;
+    --blanco: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background-color: var(--beige);
+    color: var(--texto);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26,58,42,0.96);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--verde-palido);
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.8rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--beige-oscuro);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--verde-claro); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0e2318 0%, #1a3a2a 40%, #2d6a4f 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 80%, rgba(82,183,136,0.12) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(45,106,79,0.2) 0%, transparent 50%);
+  }
+  .hero-content { position: relative; max-width: 780px; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(82,183,136,0.2);
+    border: 1px solid rgba(82,183,136,0.4);
+    color: var(--verde-claro);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    color: var(--blanco);
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--verde-claro);
+  }
+  .hero-scientific {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: rgba(216,243,220,0.7);
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.02em;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--verde-claro);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: rgba(216,243,220,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-top: 4px;
+    display: block;
+  }
+  .stat-divider {
+    width: 1px;
+    background: rgba(82,183,136,0.3);
+    align-self: stretch;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 5rem 2rem;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .section-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--verde-medio);
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--verde-medio);
+  }
+  .lead {
+    font-size: 1.1rem;
+    color: var(--texto-suave);
+    max-width: 680px;
+    margin-bottom: 3rem;
+  }
+
+  /* MADERA SECTION */
+  #madera { background: var(--blanco); }
+  .madera-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .uso-card {
+    background: var(--beige);
+    border-left: 4px solid var(--verde-claro);
+    padding: 1.4rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .uso-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  .uso-card p {
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+    line-height: 1.6;
+  }
+  .densidad-box {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .densidad-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--verde-claro);
+    white-space: nowrap;
+  }
+  .densidad-text { flex: 1; min-width: 200px; }
+  .densidad-text strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--verde-palido);
+    margin-bottom: 0.3rem;
+  }
+  .densidad-text span {
+    font-size: 0.9rem;
+    color: rgba(216,243,220,0.7);
+  }
+
+  /* SERVICIOS section */
+  #servicios { background: var(--beige); }
+  .servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .servicio-card {
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--beige-oscuro);
+    position: relative;
+    overflow: hidden;
+  }
+  .servicio-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .s-regulacion::before { background: var(--verde-claro); }
+  .s-soporte::before { background: var(--cafe); }
+  .s-cultural::before { background: #8b6914; }
+
+  .servicio-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .servicio-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  .servicio-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .servicio-items li {
+    font-size: 0.88rem;
+    color: var(--texto-suave);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .servicio-items li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--verde-claro);
+    font-weight: 600;
+  }
+
+  /* FAUNA */
+  #fauna { background: var(--verde-oscuro); color: var(--blanco); }
+  #fauna .section-title { color: var(--verde-palido); }
+  #fauna .section-tag { color: var(--verde-claro); }
+  #fauna .lead { color: rgba(216,243,220,0.75); }
+
+  .fauna-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  .fauna-table th {
+    background: rgba(82,183,136,0.15);
+    color: var(--verde-claro);
+    text-align: left;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+  }
+  .fauna-table td {
+    padding: 1rem;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(82,183,136,0.12);
+    color: rgba(255,255,255,0.85);
+  }
+  .fauna-table tr:last-child td { border-bottom: none; }
+  .fauna-table td:first-child {
+    color: var(--verde-claro);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .fauna-table td em {
+    font-style: italic;
+    color: rgba(216,243,220,0.65);
+    font-size: 0.85em;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ESPECIES ASOCIADAS */
+  #asociadas { background: var(--blanco); }
+  .especies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .especie-card {
+    border: 1px solid var(--beige-oscuro);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .especie-header {
+    background: var(--verde-oscuro);
+    padding: 1.5rem;
+    color: var(--blanco);
+  }
+  .especie-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--verde-palido);
+    margin-bottom: 0.3rem;
+  }
+  .especie-header .sci-name {
+    font-style: italic;
+    color: rgba(216,243,220,0.6);
+    font-size: 0.85rem;
+  }
+  .especie-body { padding: 1.5rem; background: var(--beige); }
+  .taxo-table { width: 100%; font-size: 0.83rem; }
+  .taxo-table td { padding: 3px 0; color: var(--texto-suave); }
+  .taxo-table td:first-child {
+    color: var(--verde-medio);
+    font-weight: 600;
+    width: 90px;
+    padding-right: 8px;
+  }
+  .especie-desc {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--beige-oscuro);
+    font-size: 0.88rem;
+    color: var(--texto-suave);
+    line-height: 1.6;
+  }
+
+  /* CONSERVACION */
+  #conservacion { background: var(--beige); }
+  .conservacion-list {
+    counter-reset: cons;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .cons-item {
+    counter-increment: cons;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .cons-num {
+    width: 44px;
+    height: 44px;
+    background: var(--verde-oscuro);
+    color: var(--verde-claro);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .cons-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--verde-oscuro);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .cons-content p {
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+    line-height: 1.6;
+  }
+
+  /* IVI SECTION */
+  #ivi { background: var(--blanco); }
+  .ivi-visual {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    border: 1px solid var(--beige-oscuro);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .ivi-cell {
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .ivi-cell:nth-child(1) { background: #f0faf4; }
+  .ivi-cell:nth-child(2) { background: #d8f3dc; }
+  .ivi-cell:nth-child(3) { background: var(--verde-claro); color: var(--blanco); }
+  .ivi-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  .ivi-type {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--verde-oscuro);
+  }
+  .ivi-cell:nth-child(3) .ivi-type { color: var(--blanco); }
+  .ivi-desc {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    line-height: 1.4;
+  }
+  .ivi-bar-wrap {
+    margin-top: 0.6rem;
+    height: 6px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .ivi-bar { height: 100%; border-radius: 3px; background: currentColor; opacity: 0.6; }
+
+  /* FOTOS */
+  #fotos { background: var(--verde-oscuro); }
+  #fotos .section-title { color: var(--verde-palido); }
+  #fotos .section-tag { color: var(--verde-claro); }
+  .fotos-placeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .foto-slot {
+    aspect-ratio: 3/4;
+    background: rgba(82,183,136,0.1);
+    border: 1px dashed rgba(82,183,136,0.3);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: rgba(216,243,220,0.4);
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 1rem;
+  }
+  .foto-slot svg { opacity: 0.4; }
+
+  /* IMPORTANCIA */
+  #importancia { background: var(--beige); }
+  .importancia-highlight {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .importancia-highlight::before {
+    content: '"';
+    position: absolute;
+    top: -0.3rem;
+    left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: rgba(82,183,136,0.15);
+    line-height: 1;
+  }
+  .importancia-highlight p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(216,243,220,0.9);
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .importancia-highlight p:last-child { margin-bottom: 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--verde-oscuro);
+    color: rgba(216,243,220,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.82rem;
+  }
+  footer strong { color: var(--verde-claro); }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .stat-divider { display: none; }
+    .hero-stats { gap: 2rem; }
+    .ivi-visual { grid-template-columns: 1fr; }
+    .fauna-table { font-size: 0.8rem; }
+    .fauna-table th, .fauna-table td { padding: 0.6rem 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Ochroma pyramidale</span>
+  <ul class="nav-links">
+    <li><a href="#madera">Madera</a></li>
+    <li><a href="#servicios">Ecosistema</a></li>
+    <li><a href="#fauna">Fauna</a></li>
+    <li><a href="#asociadas">Especies</a></li>
+    <li><a href="#conservacion">Conservación</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Especie Forestal — Pitalito, Huila</div>
+    <h1><em>Balso</em></h1>
+    <p class="hero-scientific">Ochroma pyramidale</p>
+    <p style="color:rgba(216,243,220,0.65); font-size:1rem; max-width:560px; margin:0 auto;">
+      Árbol pionero de los bosques húmedos tropicales y subtropicales de América. Especie de rápido crecimiento, alta versatilidad y rol ecológico fundamental.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">80 cm</span>
+        <span class="stat-label">CAP (circunferencia)</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">12 m</span>
+        <span class="stat-label">Altura total</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">0.17 g/cm³</span>
+        <span class="stat-label">Densidad de madera</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">4–7 años</span>
+        <span class="stat-label">Ciclo de corte</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MADERA -->
+<section id="madera">
+  <div class="container">
+    <p class="section-tag">Servicio de Aprovisionamiento</p>
+    <h2 class="section-title">Madera de alta <em>versatilidad</em></h2>
+    <p class="lead">La madera de balsa es extremadamente ligera, suave, flotante y con excelentes propiedades aislantes térmicas y acústicas. Su estructura porosa "tipo nido de abeja" la hace única.</p>
+
+    <div class="densidad-box">
+      <span class="densidad-num">0.17 g/cm³</span>
+      <div class="densidad-text">
+        <strong>La madera más ligera del mundo para uso comercial</strong>
+        <span>Su baja densidad la hace insustituible en aplicaciones que requieren ligereza extrema combinada con resistencia estructural.</span>
+      </div>
+    </div>
+
+    <div class="madera-grid">
+      <div class="uso-card">
+        <h3>Transporte acuático</h3>
+        <p>Construcción de balsas, boyas, salvavidas y cascos de barcos, aprovechando su excepcional flotabilidad natural.</p>
+      </div>
+      <div class="uso-card">
+        <h3>Industria criogénica</h3>
+        <p>Aislamiento en barcos de transporte criogénico y en la industria de la refrigeración gracias a sus propiedades térmicas.</p>
+      </div>
+      <div class="uso-card">
+        <h3>Energía eólica</h3>
+        <p>Fabricación de aspas de aerogeneradores — una de las aplicaciones más modernas y de mayor impacto ambiental positivo.</p>
+      </div>
+      <div class="uso-card">
+        <h3>Industria aeronáutica</h3>
+        <p>Pisos, techos y bodegas de aviones. También se utiliza en pisos de trenes en la industria ferroviaria.</p>
+      </div>
+      <div class="uso-card">
+        <h3>Artesanías y modelismo</h3>
+        <p>Fabricación de juguetes, artesanías, maquetas, pallets y piezas para aeromodelismo — actividad recreativa y técnica.</p>
+      </div>
+      <div class="uso-card">
+        <h3>Logística alimentaria</h3>
+        <p>Cajones de transporte de alimentos por ser ligera, de bajo costo y por no transmitir olores ni sabores a los productos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS ECOSISTÉMICOS -->
+<section id="servicios">
+  <div class="container">
+    <p class="section-tag">Servicios del Ecosistema</p>
+    <h2 class="section-title">Beneficios para el <em>entorno natural</em></h2>
+    <p class="lead">El balso proporciona servicios ecosistémicos en tres categorías fundamentales que benefician tanto al medio ambiente como a las comunidades humanas.</p>
+
+    <div class="servicios-grid">
+      <div class="servicio-card s-regulacion">
+        <span class="servicio-icon">🌿</span>
+        <h3>Servicios de Regulación</h3>
+        <ul class="servicio-items">
+          <li>Captura de carbono atmosférico — mitiga el cambio climático</li>
+          <li>Contribuye a la conservación de ríos y quebradas</li>
+          <li>Regenera terrenos degradados por roza, tumba y quema</li>
+          <li>Aislamiento acústico y térmico por su estructura porosa</li>
+        </ul>
+      </div>
+      <div class="servicio-card s-soporte">
+        <span class="servicio-icon">🌱</span>
+        <h3>Servicios de Soporte</h3>
+        <ul class="servicio-items">
+          <li>Especie pionera — inicia la sucesión ecológica secundaria</li>
+          <li>Activa el ciclo de nutrientes con su alta producción de biomasa</li>
+          <li>Formación y recuperación del suelo mediante materia orgánica</li>
+          <li>Hábitat y alimento para fauna: insectos, aves y mamíferos</li>
+        </ul>
+      </div>
+      <div class="servicio-card s-cultural">
+        <span class="servicio-icon">🏛️</span>
+        <h3>Servicios Culturales</h3>
+        <ul class="servicio-items">
+          <li>Uso tradicional y artesanal durante siglos en toda América</li>
+          <li>Etnobotánica: usos medicinales en corteza, raíz y frutos</li>
+          <li>Herramienta educativa para proyectos de reforestación</li>
+          <li>Material favorito para el aeromodelismo recreativo y técnico</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTANCIA -->
+<section id="importancia">
+  <div class="container">
+    <p class="section-tag">Importancia Forestal</p>
+    <h2 class="section-title">El balso como especie <em>pionera</em></h2>
+    <div class="importancia-highlight">
+      <p>El balso es una de las especies pioneras por excelencia en los bosques húmedos tropicales y subtropicales de América. Su principal importancia radica en que es uno de los primeros árboles en colonizar claros del bosque, áreas taladas, terrenos agrícolas abandonados, orillas de ríos y sitios degradados por actividades humanas.</p>
+      <p>Al crecer rápido y alcanzar grandes alturas en pocos años, el balso crea un microclima más fresco y húmedo debajo de su copa, protege el suelo de la radiación solar directa y la erosión, y acumula materia orgánica con su hojarasca. Esto prepara el terreno para que posteriormente se establezcan especies de sucesión tardía, permitiendo la recuperación del bosque maduro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAUNA -->
+<section id="fauna">
+  <div class="container">
+    <p class="section-tag">Interacciones Ecológicas</p>
+    <h2 class="section-title">Alimento y hábitat para la <em>fauna local</em></h2>
+    <p class="lead">El balso provee recursos clave para la fauna registrada en los monitoreos comunitarios de Pitalito. Sus flores nocturnas producen hasta 9.400 µl de néctar por noche.</p>
+
+    <table class="fauna-table">
+      <thead>
+        <tr>
+          <th>Grupo</th>
+          <th>Especies presentes en Pitalito</th>
+          <th>Interacción con el balso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mamíferos</td>
+          <td>
+            Oso andino <em>Tremarctos ornatus</em><br>
+            Mico maicero <em>Cebus apella</em><br>
+            Kinkajú <em>Potos flavus</em><br>
+            Olingo <em>Bassaricyon spp.</em>
+          </td>
+          <td>Sus flores nocturnas producen abundante néctar atrayendo mamíferos arbóreos que actúan como polinizadores clave. Los micos maiceros consumen frutos y semillas.</td>
+        </tr>
+        <tr>
+          <td>Aves</td>
+          <td>
+            474 especies reportadas<br>
+            <em>Odontophorus hyperythrus</em><br>
+            <em>Leptotila conoveri</em>
+          </td>
+          <td>El balso ofrece perchas y sitios de anidación. Su lana vegetal es usada para forrar nidos por diversas especies.</td>
+        </tr>
+        <tr>
+          <td>Insectos</td>
+          <td>
+            Abejas<br>
+            Mariposas nocturnas<br>
+            Hormigas mutualistas
+          </td>
+          <td>Polinización diurna y nocturna. El balso produce "pearl bodies" (corpúsculos lipídicos) que alimentan hormigas en relación mutualista.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ESPECIES ASOCIADAS -->
+<section id="asociadas">
+  <div class="container">
+    <p class="section-tag">Biodiversidad Asociada</p>
+    <h2 class="section-title">Especies encontradas en el <em>árbol</em></h2>
+    <p class="lead">El balso no habita solo. Una diversidad de organismos coexiste con él, cada uno cumpliendo un rol ecológico específico.</p>
+
+    <div class="especies-grid">
+      <div class="especie-card">
+        <div class="especie-header">
+          <h3>León de los Áfidos</h3>
+          <span class="sci-name">Hemerobius spp. / Sympherobius spp.</span>
+        </div>
+        <div class="especie-body">
+          <table class="taxo-table">
+            <tr><td>Reino</td><td>Animalia</td></tr>
+            <tr><td>Filo</td><td>Arthropoda</td></tr>
+            <tr><td>Clase</td><td>Insecta</td></tr>
+            <tr><td>Orden</td><td>Neuróptera</td></tr>
+            <tr><td>Familia</td><td>Hemerobiidae</td></tr>
+          </table>
+          <p class="especie-desc">Indicador de ecosistema saludable. En el árbol actúa como insecticida natural, limpiando plagas que afectarían la nutrición de la planta. No causa daño al árbol.</p>
+          <p class="especie-desc">Indicador de ecosistema saludable...</p>
+
+<div style="margin-top: 16px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+  <img src="tu-imagen.jpg" alt="León de los Áfidos" style="width: 100%; height: 180px; object-fit: cover; display: block;" />
+  <p style="font-size: 0.75rem; color: #888; text-align: center; padding: 6px; background: #f5f5f5; margin: 0;">Hemerobius spp. sobre hoja de balso</p>
+</div>
+        </div>
+      </div>
+
+      <div class="especie-card">
+        <div class="especie-header">
+          <h3>Liquen</h3>
+          <span class="sci-name">Usnea sp. / Ramalina sp.</span>
+        </div>
+        <div class="especie-body">
+          <table class="taxo-table">
+            <tr><td>Reino</td><td>Fungi</td></tr>
+            <tr><td>Filo</td><td>Ascomycota</td></tr>
+            <tr><td>Clase</td><td>Lecanoromycetes</td></tr>
+            <tr><td>Orden</td><td>Lecanorales</td></tr>
+            <tr><td>Familia</td><td>Parmeliaceae / Ramalinaceae</td></tr>
+          </table>
+          <p class="especie-desc">Bioindicador de calidad del aire. Sensible a la contaminación atmosférica — su presencia confirma que el aire en la zona es de muy buena calidad. No es parásito: usa la corteza como soporte físico.</p>
+       <p class="especie-desc">Indicador de ecosistema saludable...</p>
+
+<div style="margin-top: 16px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+  <img src="tu-imagen.jpg" alt="León de los Áfidos" style="width: 100%; height: 180px; object-fit: cover; display: block;" />
+  <p style="font-size: 0.75rem; color: #888; text-align: center; padding: 6px; background: #f5f5f5; margin: 0;">Hemerobius spp. sobre hoja de balso</p>
+</div> 
+        </div>
+      </div>
+
+      <div class="especie-card">
+        <div class="especie-header">
+          <h3>Planta de Aire</h3>
+          <span class="sci-name">Tillandsia schiedeana</span>
+        </div>
+        <div class="especie-body">
+          <table class="taxo-table">
+            <tr><td>Reino</td><td>Plantae</td></tr>
+            <tr><td>Orden</td><td>Poales</td></tr>
+            <tr><td>Familia</td><td>Bromeliaceae</td></tr>
+            <tr><td>Subfamilia</td><td>Tillandsioideae</td></tr>
+            <tr><td>Género</td><td>Tillandsia</td></tr>
+          </table>
+          <p class="especie-desc">Epífita, no parásita. Crea refugio para insectos, arañas y pequeños anfibios. Sus flores son polinizadas por colibríes. Captura humedad y nutrientes del aire con sus tricomas (escamas).</p>
+        <p class="especie-desc">Indicador de ecosistema saludable...</p>
+
+<div style="margin-top: 16px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+  <img src="tu-imagen.jpg" alt="León de los Áfidos" style="width: 100%; height: 180px; object-fit: cover; display: block;" />
+  <p style="font-size: 0.75rem; color: #888; text-align: center; padding: 6px; background: #f5f5f5; margin: 0;">Hemerobius spp. sobre hoja de balso</p>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IVI -->
+<section id="ivi">
+  <div class="container">
+    <p class="section-tag">Índice de Valor de Importancia</p>
+    <h2 class="section-title">IVI por tipo de <em>bosque</em></h2>
+    <p class="lead">El IVI del balso varía directamente con el nivel de perturbación del bosque. Cuanto más abierto y degradado esté el sitio, mayor será su importancia relativa.</p>
+
+    <div class="ivi-visual">
+      <div class="ivi-cell">
+        <p class="ivi-label">Bosque Maduro</p>
+        <p class="ivi-type">IVI Nulo</p>
+        <p class="ivi-desc">En bosques maduros es casi nulo — otras especies dominan el dosel</p>
+        <div class="ivi-bar-wrap" style="background:#e0f0e8;">
+          <div class="ivi-bar" style="width:8%; background: var(--verde-medio);"></div>
+        </div>
+      </div>
+      <div class="ivi-cell">
+        <p class="ivi-label">Bosque Secundario</p>
+        <p class="ivi-type">IVI Moderado–Alto</p>
+        <p class="ivi-desc">En bosques secundarios jóvenes su importancia es moderada a alta</p>
+        <div class="ivi-bar-wrap" style="background:#b7dfc5;">
+          <div class="ivi-bar" style="width:55%; background: var(--verde-medio);"></div>
+        </div>
+      </div>
+      <div class="ivi-cell">
+        <p class="ivi-label">Área Intervenida</p>
+        <p class="ivi-type">Especie Dominante</p>
+        <p class="ivi-desc">En áreas severamente intervenidas puede ser la especie más importante del ensamblaje vegetal</p>
+        <div class="ivi-bar-wrap">
+          <div class="ivi-bar" style="width:95%; background: var(--blanco);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONSERVACIÓN -->
+<section id="conservacion">
+  <div class="container">
+    <p class="section-tag">Medidas de Conservación</p>
+    <h2 class="section-title">Estrategias para conservar la <em>biodiversidad</em></h2>
+    <p class="lead">Cinco líneas de acción para garantizar la sostenibilidad de esta especie y del ecosistema que la rodea en el municipio de Pitalito.</p>
+
+    <ol class="conservacion-list">
+      <li class="cons-item">
+        <div class="cons-num">1</div>
+        <div class="cons-content">
+          <h3>Manejo Forestal Sostenible (MFS)</h3>
+          <p>Establecer plantaciones de balsa con fines comerciales para reducir la presión sobre los bosques naturales. Lista para corte en solo 4 a 7 años. Buscar certificación FSC para garantizar prácticas que conserven biodiversidad, suelo y agua.</p>
+        </div>
+      </li>
+      <li class="cons-item">
+        <div class="cons-num">2</div>
+        <div class="cons-content">
+          <h3>Restauración de Áreas Degradadas</h3>
+          <p>Usar la balsa como especie núcleo en áreas intervenidas. Su capacidad de crecer en suelos degradados inicia procesos de restauración ecológica, atrae fauna dispersora de semillas y crea microclimas favorables para otras especies.</p>
+        </div>
+      </li>
+      <li class="cons-item">
+        <div class="cons-num">3</div>
+        <div class="cons-content">
+          <h3>Conservación de Ecosistemas Riparios</h3>
+          <p>Proteger las vegas y orillas de ríos. Establecer franjas de protección (bosques de galería) que incluyan al balso para conservar la calidad del agua, evitar la erosión y conectar hábitats fragmentados.</p>
+        </div>
+      </li>
+      <li class="cons-item">
+        <div class="cons-num">4</div>
+        <div class="cons-content">
+          <h3>Investigación y Monitoreo</h3>
+          <p>Estudiar fenología y fauna asociada (murciélagos y abejas nocturnas polinizadoras). Monitorear la regeneración natural para evaluar cómo contribuye a la recuperación de la estructura y composición del bosque secundario.</p>
+        </div>
+      </li>
+      <li class="cons-item">
+        <div class="cons-num">5</div>
+        <div class="cons-content">
+          <h3>Educación y Participación Comunitaria</h3>
+          <p>Capacitar a comunidades en el manejo sostenible y los múltiples usos del balso para que sea fuente de ingreso que incentive su conservación. Incluirlo en programas de reforestación en colegios y juntas de acción comunal.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- FOTOS DE CAMPO -->
+<section id="fotos">
+  <div class="container">
+    <p class="section-tag">Registro Visual</p>
+    <h2 class="section-title" style="color:var(--verde-palido);">Imágenes de <em style="color:var(--verde-claro);">salida de campo</em></h2>
+    <p class="lead">Fotografías tomadas durante el trabajo de campo y monitoreo del árbol Balso y sus especies asociadas en Pitalito, Huila.</p>
+
+    <div class="fotos-placeholder-grid">
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 1</span>
+      </div>
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 2</span>
+      </div>
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 3</span>
+      </div>
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 4</span>
+      </div>
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 5</span>
+      </div>
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 6</span>
+      </div>
+      <div class="foto-slot">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M8.5 3.5V5"/></svg>
+        <span>Imagen de campo 7</span>
+      </div>
+    </div>
+    <p style="color:rgba(216,243,220,0.4); font-size:0.82rem; margin-top:1rem; text-align:center;">
+      
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>Trabajo de campo sobre <strong>Ochroma pyramidale</strong> — Balso &nbsp;·&nbsp; Pitalito, Huila, Colombia</p>
+  <p style="margin-top:0.5rem;">Especie forestal pionera de los bosques húmedos tropicales de América</p>
+   <p>  </p>
+  <p style="margin-top:0.5rem;">UNIVERSIDAD NACIONAL ABIERTA Y A DISTANCIA (UNAD) </p>
+    <p style="margin-top:0.5rem;">Biodiversidad y servicio ecosistémico</p>
+    <p style="margin-top:0.5rem;">Ricardo Claros Rojas</p>
+
+</footer>
+
+</body>
+</html>
